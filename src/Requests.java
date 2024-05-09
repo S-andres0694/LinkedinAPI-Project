@@ -21,7 +21,6 @@ public class Requests {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         JobDetails jobs = gson.fromJson(response.body(), JobDetails.class);
         System.out.println(jobs);
-        System.out.println("hE");
     }
 
 }

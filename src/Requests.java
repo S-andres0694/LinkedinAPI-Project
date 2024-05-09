@@ -1,26 +1,63 @@
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.BasicHttpClientResponseHandler;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.message.BasicHeader;
+import org.apache.hc.core5.net.URIBuilder;
+import java.io.IOException;
 import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Requests {
 
-    public static void main(String[] args) throws Exception{
+    //TODO: Create interface to be able to produce custom queries
+    // based on the API parameters as well as user-supplied specifications
 
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://jsearch.p.rapidapi.com/search?query=PythondeveloperinTexas%2C%20USA&page=1&num_pages=1"))
-                .header("X-RapidAPI-Key", "14c022e6c8msh6f5cee1caad4bacp16bc3cjsn350654d077a9")
-                .header("X-RapidAPI-Host", "jsearch.p.rapidapi.com")
-                .method("GET", HttpRequest.BodyPublishers.noBody())
-                .build();
+    //TODO: Use the GSON Library to parse through the obtained responses
+    // to turn them into usable data for the JDBC Connection
 
-        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        JobDetails jobs = gson.fromJson(response.body(), JobDetails.class);
-        System.out.println(jobs);
+
+    public static void main(String[] args) {
+
+        /*
+           HTTP Request which takes a single parameter at the moment, which is a query.
+           To do this, it takes the URI and then after adding the parameters, it is placed
+           inside the HTTP Request
+         */
+
+        HttpGet httpGetObj = new HttpGet("https://jsearch.p.rapidapi.com/search");
+        URI uri = null;
+        try {
+            uri = new URIBuilder(httpGetObj.getUri())
+                    .addParameter("query","Software Developer in California")
+                    .build();
+        } catch (URISyntaxException e) {
+            System.out.println("There has been a problem parsing through the given URI and it cannot be recognized");
+        }
+        httpGetObj.setUri(uri);
+
+        //Creation of the necessary headers to get authentication from the API
+
+        Header apiKey = new BasicHeader("X-RapidAPI-Key","14c022e6c8msh6f5cee1caad4bacp16bc3cjsn350654d077a9");
+        Header hostKey = new BasicHeader("X-RapidAPI-Host","jsearch.p.rapidapi.com");
+        List<Header> headers = new ArrayList<>();
+        headers.add(apiKey);
+        headers.add(hostKey);
+
+        //Creation of the Client who retrieves the response from the API.
+
+        try(CloseableHttpClient httpClient = HttpClients.custom().setDefaultHeaders(headers).build()) {
+            String response = httpClient.execute(httpGetObj, new BasicHttpClientResponseHandler());
+            System.out.println(response);
+        } catch (IOException e) {
+            System.out.println("There has been a problem with the connection to the API. Please try again");
+        }
+
+
     }
 
 }

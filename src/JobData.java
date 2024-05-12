@@ -1,4 +1,5 @@
-import java.util.StringJoiner;
+import java.sql.Timestamp;
+import java.util.Date;
 
 public class JobData {
 
@@ -75,7 +76,9 @@ public class JobData {
   }
 
   public String getJob_apply_is_direct() {
-    return job_apply_is_direct;
+    if (job_apply_is_direct.equals("true")) {
+      return "Yes!";
+    } else return "No!";
   }
 
   public void setJob_apply_is_direct(String job_apply_is_direct) {
@@ -91,7 +94,10 @@ public class JobData {
   }
 
   public String getJob_is_remote() {
-    return job_is_remote;
+    if (job_is_remote.equals("true")) {
+      return "Yes!";
+    }
+    return "No!";
   }
 
   public void setJob_is_remote(String job_is_remote) {
@@ -99,7 +105,11 @@ public class JobData {
   }
 
   public String getJob_posted_at_timestamp() {
-    return job_posted_at_timestamp;
+    if (job_posted_at_timestamp != null){
+      Timestamp tms = new Timestamp(Long.parseLong(job_posted_at_timestamp));
+      Date date = new Date(tms.getTime());
+      return date.toString();
+    } else return "Not given";
   }
 
   public void setJob_posted_at_timestamp(String job_posted_at_timestamp) {
@@ -131,7 +141,11 @@ public class JobData {
   }
 
   public String getJob_offer_expiration_timestamp() {
-    return job_offer_expiration_timestamp;
+    if (job_offer_expiration_timestamp != null){
+      Timestamp tms = new Timestamp(Long.parseLong(job_offer_expiration_timestamp));
+      Date date = new Date(tms.getTime());
+      return date.toString();
+    } else return "Not Specified";
   }
 
   public void setJob_offer_expiration_timestamp(String job_offer_expiration_timestamp) {
@@ -150,16 +164,15 @@ public class JobData {
         .append("     Employment Type: " + getJob_employment_type() + "\n")
         .append("     Official Title: " + getJob_title() + "\n")
         .append("     Job Application Link: " + getJob_apply_link() + "\n")
-        .append("     Is the job application direct?" + getJob_apply_is_direct() + "\n")
+        .append("     Is the job application direct? " + getJob_apply_is_direct() + "\n")
         .append("     Description of the Role: " + getJob_description() + "\n")
-        .append("     Is the job remote?: " + getJob_is_remote() + "\n")
+        .append("     Is the job remote? " + getJob_is_remote() + "\n")
         .append("     When was the job posted? " + getJob_posted_at_timestamp() + "\n")
         .append("     City: " + getJob_city() + "\n")
         .append("     State: " + getJob_state() + "\n")
         .append("     Country: " + getJob_country() + "\n")
-        .append("     When does the job offer expire? " + getJob_offer_expiration_timestamp() + "\n")
+        .append(
+            "     When does the job offer expire? " + getJob_offer_expiration_timestamp() + "\n")
         .toString();
   }
 }
-
-

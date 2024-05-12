@@ -69,7 +69,15 @@ public class JobDetails {
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append("Request Status: " + status + "\n");
     stringBuilder.append("Request Internal Parameters:" + "\n" + getParameters() + "\n");
-    stringBuilder.append("Job Data:" + "\n" + data.get(0));
+    stringBuilder.append("Job Listings: " + "\n");
+    int x = 1;
+    for (JobData data : getData()){
+
+      stringBuilder.append("Job Listing " + x + ":\n");
+      stringBuilder.append(data + "\n");
+      x++;
+
+    }
     return stringBuilder.toString();
   }
 }

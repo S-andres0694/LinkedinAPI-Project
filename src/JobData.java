@@ -142,22 +142,22 @@ public class JobData {
 
   @Override
   public String toString() {
-    return new StringJoiner(", ", this.getClass().getSimpleName() + "{", "}")
-        .add("Name of the Employer: " + getEmployer_name())
-        .add("Employer Website: " + getEmployer_website())
-        .add("Employer Company Type: " + getEmployer_company_type())
-        .add("Job Publisher: " + getJob_publisher())
-        .add("Employment Type: " + getJob_employment_type())
-        .add("Official Title: " + getJob_title())
-        .add("Job Application Link: " + getJob_apply_link())
-        .add("Is the job application direct?" + getJob_apply_is_direct())
-        .add("Description of the Role: " + getJob_description())
-        .add("Is the job remote?: " + getJob_is_remote())
-        .add("When was the job posted? " + getJob_posted_at_timestamp())
-        .add("City: " + getJob_city())
-        .add("State: " + getJob_state())
-        .add("Country: " + getJob_country())
-        .add("When does the job offer expire? " + getJob_offer_expiration_timestamp())
+    return new StringBuilder()
+        .append("     Name of the Employer: " + getEmployer_name() + "\n")
+        .append("     Employer Website: " + getEmployer_website() + "\n")
+        .append("     Employer Company Type: " + getEmployer_company_type() + "\n")
+        .append("     Job Publisher: " + getJob_publisher() + "\n")
+        .append("     Employment Type: " + getJob_employment_type() + "\n")
+        .append("     Official Title: " + getJob_title() + "\n")
+        .append("     Job Application Link: " + getJob_apply_link() + "\n")
+        .append("     Is the job application direct?" + getJob_apply_is_direct() + "\n")
+        .append("     Description of the Role: " + getJob_description() + "\n")
+        .append("     Is the job remote?: " + getJob_is_remote() + "\n")
+        .append("     When was the job posted? " + getJob_posted_at_timestamp() + "\n")
+        .append("     City: " + getJob_city() + "\n")
+        .append("     State: " + getJob_state() + "\n")
+        .append("     Country: " + getJob_country() + "\n")
+        .append("     When does the job offer expire? " + getJob_offer_expiration_timestamp() + "\n")
         .toString();
   }
 }

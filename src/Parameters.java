@@ -36,10 +36,10 @@ public class Parameters {
 
     @Override
     public String toString() {
-        return "Parameters{" +
-                "query='" + query + '\'' +
-                ", page=" + page +
-                ", num_pages=" + num_pages +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Query: ").append(query).append("\n");
+        sb.append("Page: ").append(page).append("\n");
+        sb.append("Page Number: ").append(num_pages);
+        return sb.toString();
     }
 }

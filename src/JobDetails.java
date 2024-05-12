@@ -1,12 +1,8 @@
 public class JobDetails {
 
     private String status;
-    private String request_id;
     private Parameters parameters;
 
-    public String getRequest_id() {
-        return request_id;
-    }
 
     public String getStatus() {
         return status;
@@ -14,10 +10,6 @@ public class JobDetails {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public void setRequest_id(String request_ID) {
-        this.request_id = request_ID;
     }
 
     public Parameters getParameters() {
@@ -32,10 +24,9 @@ public class JobDetails {
 
     @Override
     public String toString() {
-        return "JobDetails{" +
-                "status='" + status + '\'' +
-                ", request_id='" + request_id + '\'' +
-                ", parameters=" + parameters +
-                '}';
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Request Status: " + status );
+        stringBuilder.append("Details of the Job:" + "\n" + getParameters());
+        return stringBuilder.toString();
     }
 }

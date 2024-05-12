@@ -1,3 +1,4 @@
+import com.google.gson.Gson;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.impl.classic.BasicHttpClientResponseHandler;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
@@ -52,7 +53,8 @@ public class Requests {
 
         try(CloseableHttpClient httpClient = HttpClients.custom().setDefaultHeaders(headers).build()) {
             String response = httpClient.execute(httpGetObj, new BasicHttpClientResponseHandler());
-            System.out.println(response);
+            Gson gsonObj = new Gson();
+            System.out.println(gsonObj.fromJson(response, JobDetails.class));
         } catch (IOException e) {
             System.out.println("There has been a problem with the connection to the API. Please try again");
         }

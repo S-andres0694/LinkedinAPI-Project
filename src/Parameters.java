@@ -37,7 +37,7 @@ public class Parameters {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("     User Query: ").append(query).append("\n");
+        sb.append("     User Query: ").append(query.toUpperCase()).append("\n");
         sb.append("     Page: ").append(page).append("\n");
         sb.append("     Page Number: ").append(num_pages);
         return sb.toString();

@@ -25,8 +25,8 @@ public class JobDetails {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Request Status: " + status );
-        stringBuilder.append("Details of the Job:" + "\n" + getParameters());
+        stringBuilder.append("Request Status: " + status + "\n" );
+        stringBuilder.append("Request Internal Parameters:" + "\n" + getParameters());
         return stringBuilder.toString();
     }
 }

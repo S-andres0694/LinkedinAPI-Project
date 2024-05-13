@@ -57,6 +57,7 @@ public class JobDetails {
     data1.setJob_state(job_state);
     data1.setJob_country(job_country);
     data1.setJob_offer_expiration_timestamp(job_offer_expiration_timestamp);
+
     data.add(data1);
   }
 
@@ -72,11 +73,9 @@ public class JobDetails {
     stringBuilder.append("Job Listings: " + "\n");
     int x = 1;
     for (JobData data : getData()){
-
       stringBuilder.append("Job Listing " + x + ":\n");
       stringBuilder.append(data + "\n");
       x++;
-
     }
     return stringBuilder.toString();
   }

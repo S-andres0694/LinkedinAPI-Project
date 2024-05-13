@@ -19,6 +19,31 @@ public class JobData {
       job_country,
       job_offer_expiration_timestamp;
 
+  private PreviousExperience job_required_experience;
+  private PrevEducation job_required_education;
+
+  public PrevEducation getJob_required_education() {
+    return job_required_education;
+  }
+
+  public void setEducationalQualifications(String postgraduate_degree, String professional_certification, String high_school, String associates_degree, String bachelors_degree) {
+    job_required_education.setPostgraduate_degree(postgraduate_degree);
+    job_required_education.setProfessional_certification(professional_certification);
+    job_required_education.setHigh_school(high_school);
+    job_required_education.setAssociates_degree(associates_degree);
+    job_required_education.setBachelors_degree(bachelors_degree);
+  }
+
+  public PreviousExperience getJob_required_experience() {
+    return job_required_experience;
+  }
+
+public void setJob_required_experience(String no_experience_required, String required_experience_in_months, String experience_preferred){
+    job_required_experience.setRequired_experience_in_months(required_experience_in_months);
+    job_required_experience.setExperience_preferred(experience_preferred);
+    job_required_experience.setNo_experience_required(no_experience_required);
+}
+
   public String getEmployer_name() {
     return employer_name;
   }
@@ -173,6 +198,8 @@ public class JobData {
         .append("     Country: " + getJob_country() + "\n")
         .append(
             "     When does the job offer expire? " + getJob_offer_expiration_timestamp() + "\n")
+            .append(job_required_experience.toString() + "\n")
+            .append(job_required_education.toString() + "\n")
         .toString();
   }
 }

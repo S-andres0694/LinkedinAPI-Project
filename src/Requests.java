@@ -19,21 +19,7 @@ import java.util.List;
 
 public class Requests {
 
-    //TODO: Create interface to be able to produce custom queries
-    // based on the API parameters as well as user-supplied specifications
-
-    //TODO: Use the GSON Library to parse through the obtained responses
-    // to turn them into usable data for the JDBC Connection
-
-
-    public static void main(String[] args) {
-
-        /*
-           HTTP Request which takes a single parameter at the moment, which is a query.
-           To do this, it takes the URI and then after adding the parameters, it is placed
-           inside the HTTP Request
-         */
-
+    protected JobDetails parsedJSONProvider(){
         HttpGet httpGetObj = new HttpGet("https://jsearch.p.rapidapi.com/search");
         URI uri = null;
         try {
@@ -58,10 +44,21 @@ public class Requests {
         try(CloseableHttpClient httpClient = HttpClients.custom().setDefaultHeaders(headers).build()) {
             String response = httpClient.execute(httpGetObj, new BasicHttpClientResponseHandler());
             Gson gsonObj = new Gson();
-            System.out.println(gsonObj.fromJson(response, JobDetails.class));
+            return (gsonObj.fromJson(response, JobDetails.class));
         } catch (IOException e) {
             System.out.println("There has been a problem with the connection to the API. Please try again");
         }
+        return null;
+    }
+
+    public static void main(String[] args) {
+
+        /*
+           HTTP Request which takes a single parameter at the moment, which is a query.
+           To do this, it takes the URI and then after adding the parameters, it is placed
+           inside the HTTP Request
+         */
+
 
 
     }

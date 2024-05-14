@@ -1,10 +1,12 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class JobDetails {
 
   private String status;
   private Parameters parameters;
   private ArrayList<JobData> data;
+
 
   public String getStatus() {
     return status;
@@ -64,6 +66,8 @@ public class JobDetails {
   public ArrayList<JobData> getData() {
     return data;
   }
+
+
 
   @Override
   public String toString() {

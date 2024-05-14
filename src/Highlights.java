@@ -1,9 +1,11 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Highlights {
 
   private ArrayList<String> Qualifications;
   private ArrayList<String> Responsibilities;
+  private ArrayList<String> Benefits;
 
   public ArrayList<String> getQualifications() {
     if (Qualifications == null) {
@@ -12,6 +14,19 @@ public class Highlights {
     } else {
       return Qualifications;
     }
+  }
+
+  public ArrayList<String> getBenefits() {
+    if (Benefits == null) {
+      Benefits = new ArrayList<>();
+      return Benefits;
+    } else {
+      return Benefits;
+    }
+  }
+
+  public void setBenefits(ArrayList<String> benefits) {
+    Benefits = benefits;
   }
 
   public void setQualifications(ArrayList<String> qualifications) {
@@ -43,6 +58,12 @@ public class Highlights {
     if (Qualifications != null) {
       builder.append("Qualifications: " + "\n");
       for (String s : getQualifications()) {
+        builder.append("     " + s + "\n");
+      }
+    }
+    if (Benefits != null) {
+      builder.append("Benefits: " + "\n");
+      for (String s : getBenefits()) {
         builder.append("     " + s + "\n");
       }
     }

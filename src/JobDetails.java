@@ -1,12 +1,10 @@
 import java.util.ArrayList;
-import java.util.List;
 
 public class JobDetails {
 
   private String status;
   private Parameters parameters;
   private ArrayList<JobData> data;
-
 
   public String getStatus() {
     return status;
@@ -67,8 +65,6 @@ public class JobDetails {
     return data;
   }
 
-
-
   @Override
   public String toString() {
     StringBuilder stringBuilder = new StringBuilder();
@@ -76,7 +72,7 @@ public class JobDetails {
     stringBuilder.append("Request Internal Parameters:" + "\n" + getParameters() + "\n");
     stringBuilder.append("Job Listings: " + "\n");
     int x = 1;
-    for (JobData data : getData()){
+    for (JobData data : getData()) {
       stringBuilder.append("Job Listing " + x + ":\n");
       stringBuilder.append(data + "\n");
       x++;

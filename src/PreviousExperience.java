@@ -1,13 +1,11 @@
-
-
 public class PreviousExperience {
 
   private String no_experience_required, required_experience_in_months, experience_preferred;
 
   public String getNo_experience_required() {
-    if (no_experience_required.equals("true")){
+    if (no_experience_required.equals("true")) {
       return "Yes!";
-    }else {
+    } else {
       return "No!";
     }
   }
@@ -17,9 +15,9 @@ public class PreviousExperience {
   }
 
   public String getRequired_experience_in_months() {
-    if (required_experience_in_months == null){
+    if (required_experience_in_months == null) {
       return "Not Specified!";
-    }else {
+    } else {
       return required_experience_in_months;
     }
   }
@@ -29,9 +27,9 @@ public class PreviousExperience {
   }
 
   public String getExperience_preferred() {
-    if (experience_preferred.equals("true")){
+    if (experience_preferred.equals("true")) {
       return "Yes!";
-    }else{
+    } else {
       return "No!";
     }
   }
@@ -40,12 +38,15 @@ public class PreviousExperience {
     this.experience_preferred = experience_preferred;
   }
 
-
   @Override
   public String toString() {
-    return new StringBuilder().append("     Required Experience: " + getNo_experience_required() + "\n")
-            .append("     Months of Required Experience: " + getRequired_experience_in_months() + "\n")
-            .append("     Does this company prefer previous experience? " + getExperience_preferred() + "\n")
-            .toString();
+    return new StringBuilder()
+        .append("     Required Experience: " + getNo_experience_required() + "\n")
+        .append("     Months of Required Experience: " + getRequired_experience_in_months() + "\n")
+        .append(
+            "     Does this company prefer previous experience? "
+                + getExperience_preferred()
+                + "\n")
+        .toString();
   }
 }

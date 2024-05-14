@@ -1,4 +1,9 @@
 import com.google.gson.Gson;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.apache.hc.client5.http.impl.classic.BasicHttpClientResponseHandler;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
@@ -7,19 +12,15 @@ import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.message.BasicHeader;
 import org.apache.hc.core5.net.URIBuilder;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-
-
 public class Requests {
 
-    protected JobDetails parsedJSONProvider(){
+     /*
+           HTTP Request which takes a single parameter at the moment, which is a query.
+           To do this, it takes the URI and then after adding the parameters, it is placed
+           inside the HTTP Request
+         */
+
+    protected static JobDetails parsedJSONProvider(){
         HttpGet httpGetObj = new HttpGet("https://jsearch.p.rapidapi.com/search");
         URI uri = null;
         try {
@@ -53,13 +54,7 @@ public class Requests {
 
     public static void main(String[] args) {
 
-        /*
-           HTTP Request which takes a single parameter at the moment, which is a query.
-           To do this, it takes the URI and then after adding the parameters, it is placed
-           inside the HTTP Request
-         */
-
-
+        System.out.println(parsedJSONProvider());
 
     }
 

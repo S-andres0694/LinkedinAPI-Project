@@ -1,4 +1,5 @@
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class JobData {
@@ -23,12 +24,22 @@ public class JobData {
   private String job_max_salary;
   private String job_salary_currency;
   private String job_salary_period;
-
+  private Highlights job_highlights;
   private PreviousExperience job_required_experience;
   private PrevEducation job_required_education;
 
   public PrevEducation getJob_required_education() {
     return job_required_education;
+  }
+
+  public Highlights getJob_highlights() {
+    return job_highlights;
+  }
+
+  public void setJob_highlights(
+      ArrayList<String> Qualifications, ArrayList<String> Responsabilities) {
+    job_highlights.setQualifications(Qualifications);
+    job_highlights.setResponsibilities(Responsabilities);
   }
 
   public void setEducationalQualifications(
@@ -242,35 +253,37 @@ public class JobData {
 
   @Override
   public String toString() {
-    return new StringBuilder()
-        .append("     Name of the Employer: " + getEmployer_name() + "\n")
-        .append("     Employer Website: " + getEmployer_website() + "\n")
-        .append("     Employer Company Type: " + getEmployer_company_type() + "\n")
-        .append("     Job Publisher: " + getJob_publisher() + "\n")
-        .append("     Employment Type: " + getJob_employment_type() + "\n")
-        .append("     Official Title: " + getJob_title() + "\n")
-        .append("     Job Application Link: " + getJob_apply_link() + "\n")
-        .append("     Is the job application direct? " + getJob_apply_is_direct() + "\n")
-        .append("     Description of the Role: " + getJob_description() + "\n")
-        .append("     Is the job remote? " + getJob_is_remote() + "\n")
-        .append("     When was the job posted? " + getJob_posted_at_timestamp() + "\n")
-        .append("     City: " + getJob_city() + "\n")
-        .append("     State: " + getJob_state() + "\n")
-        .append("     Country: " + getJob_country() + "\n")
-        .append(
-            "     When does the job offer expire? " + getJob_offer_expiration_timestamp() + "\n")
-        .append(job_required_experience.toString() + "\n")
-        .append(job_required_education.toString() + "\n")
-        .append(
-            "Minimum salary disclosed: "
-                + getJob_min_salary()
-                + " Maximum salary disclosed: "
-                + getJob_max_salary()
-                + "\n")
-        .append(
-            "Currency in which the salary is going to be paid: " + getJob_salary_currency() + "\n")
-        .append(
-            "Period in which the salary is going to be paid in: " + getJob_salary_period() + "\n")
-        .toString();
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append("     Name of the Employer: " + getEmployer_name() + "\n");
+    stringBuilder.append("     Employer Website: " + getEmployer_website() + "\n");
+    stringBuilder.append("     Employer Company Type: " + getEmployer_company_type() + "\n");
+    stringBuilder.append("     Job Publisher: " + getJob_publisher() + "\n");
+    stringBuilder.append("     Employment Type: " + getJob_employment_type() + "\n");
+    stringBuilder.append("     Official Title: " + getJob_title() + "\n");
+    stringBuilder.append("     Job Application Link: " + getJob_apply_link() + "\n");
+    stringBuilder.append("     Is the job application direct? " + getJob_apply_is_direct() + "\n");
+    stringBuilder.append("     Description of the Role: " + getJob_description() + "\n");
+    stringBuilder.append("     Is the job remote? " + getJob_is_remote() + "\n");
+    stringBuilder.append("     When was the job posted? " + getJob_posted_at_timestamp() + "\n");
+    stringBuilder.append("     City: " + getJob_city() + "\n");
+    stringBuilder.append("     State: " + getJob_state() + "\n");
+    stringBuilder.append("     Country: " + getJob_country() + "\n");
+    stringBuilder.append(
+        "     When does the job offer expire? " + getJob_offer_expiration_timestamp() + "\n");
+    stringBuilder.append(job_required_experience.toString() + "\n");
+    stringBuilder.append(job_required_education.toString() + "\n");
+    stringBuilder.append(
+        "Minimum salary disclosed: "
+            + getJob_min_salary()
+            + "\n"
+            + "Maximum salary disclosed: "
+            + getJob_max_salary()
+            + "\n");
+    stringBuilder.append(
+        "Currency in which the salary is going to be paid: " + getJob_salary_currency() + "\n");
+    stringBuilder.append(
+        "Period in which the salary is going to be paid in: " + getJob_salary_period() + "\n");
+    stringBuilder.append(job_highlights);
+    return stringBuilder.toString();
   }
 }

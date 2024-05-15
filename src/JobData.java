@@ -37,9 +37,10 @@ public class JobData {
   }
 
   public void setJob_highlights(
-      ArrayList<String> Qualifications, ArrayList<String> Responsabilities) {
+      ArrayList<String> Qualifications, ArrayList<String> Responsabilities, ArrayList<String> Benefits) {
     job_highlights.setQualifications(Qualifications);
     job_highlights.setResponsibilities(Responsabilities);
+    job_highlights.setBenefits(Benefits);
   }
 
   public void setEducationalQualifications(

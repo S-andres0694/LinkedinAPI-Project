@@ -13,5 +13,6 @@
     <orderEntry type="library" name="slf4j.simple" level="project" />
     <orderEntry type="library" name="slf4j.api" level="project" />
     <orderEntry type="library" name="hibernate.orm.core" level="project" />
+    <orderEntry type="library" name="mysql.connector.j" level="project" />
   </component>
 </module>

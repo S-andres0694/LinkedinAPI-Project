@@ -1,0 +1,17 @@
+yaml
+jobs:
+  build: 
+  runs-on: ubuntu-latest
+
+  steps: 
+  - uses: actions/checkout@v2
+  - name: Set up JDK
+    uses: actions/setup-java@v2
+    with:
+      java-version: '17'
+
+  - name: Build with Maven
+    env: 
+      MY_SECRET: ${{ secrets.MY_SECRET }}
+    run: mvn clean package -Dmy.secret=$MY_SECRET
+

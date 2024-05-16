@@ -12,7 +12,7 @@ import org.apache.hc.core5.http.Header;
 import org.apache.hc.core5.http.message.BasicHeader;
 import org.apache.hc.core5.net.URIBuilder;
 
-public class Requests {
+public class Requests{
 
      /*
            HTTP Request which takes a single parameter at the moment, which is a query.

@@ -12,6 +12,6 @@ jobs:
 
   - name: Build with Maven
     env: 
-      MY_SECRET: ${{ secrets.MY_SECRET }}
-    run: mvn clean package -Dmy.secret=$MY_SECRET
+      MY_SECRET: ${{ secrets.X-RAPIDAPI-KEY }}
+    run: mvn clean package -Dmy.secret=$X-RAPIDAPI-KEY
 

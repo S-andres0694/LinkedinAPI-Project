@@ -29,7 +29,7 @@ public class JobDataEntity {
   }
   public JobDataEntity() {}
   @Id
-  @GeneratedValue (strategy = GenerationType.IDENTITY)
+  @GeneratedValue (strategy = GenerationType.SEQUENCE)
   @Column(name = "id", nullable = false)
   private int ID;
 
@@ -57,7 +57,8 @@ public class JobDataEntity {
   @Column(name = "job_apply_is_direct")
   private String job_apply_is_direct;
 
-  @Column(name = "job_description")
+  @Lob
+  @Column(name = "job_description", columnDefinition = "MEDIUMTEXT")
   private String job_description;
 
   @Column(name = "job_is_remote")

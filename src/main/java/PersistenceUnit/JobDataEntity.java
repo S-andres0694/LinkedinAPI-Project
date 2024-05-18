@@ -1,3 +1,5 @@
+package PersistenceUnit;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -94,7 +96,7 @@ public class JobDataEntity {
   @OneToOne(
       cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.DETACH},
       orphanRemoval = true)
-  @JoinColumn(name = "previous_experience_entity_id")
+  @JoinColumn(name = "previous_experience_id")
   private PreviousExperienceEntity job_required_experience;
 
   @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)

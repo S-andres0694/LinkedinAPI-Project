@@ -1,3 +1,4 @@
+import PersistenceUnit.*;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.net.URI;
@@ -25,8 +26,7 @@ public class Requests{
         URI uri = null;
         try {
             uri = new URIBuilder(httpGetObj.getUri())
-                    .addParameter("query","Software Developer in California")
-                    .build();
+                    .addParameter("query","Software Developer in California").addParameter("page", "1").build();
         } catch (URISyntaxException e) {
             System.out.println("There has been a problem parsing through the given URI and it cannot be recognized");
         }
@@ -34,7 +34,7 @@ public class Requests{
 
         //Creation of the necessary headers to get authentication from the API
 
-        Header apiKey = new BasicHeader("X-RapidAPI-Key","14c022e6c8msh6f5cee1caad4bacp16bc3cjsn350654d077a9");
+        Header apiKey = new BasicHeader("X-RapidAPI-Key","66305618d7msh4a97ed0a0c53863p127236jsn61e95b0679a0");
         Header hostKey = new BasicHeader("X-RapidAPI-Host","jsearch.p.rapidapi.com");
         List<Header> headers = new ArrayList<>();
         headers.add(apiKey);
@@ -68,7 +68,7 @@ public class Requests{
                 jobs.getJob_min_salary(),
                 jobs.getJob_max_salary(),
                 jobs.getJob_salary_currency(), jobs.getJob_salary_period(),
-                new HighlightsEntity(new QualificationsEntity(), new ResponsibilitiesEntity(), new BenefitsEntity()), new PreviousExperienceEntity(jobs.getJob_required_experience().getExperience_preferred(), jobs.getJob_required_experience().getRequired_experience_in_months(), jobs.getJob_required_experience().getNo_experience_required()),
+                new HighlightsEntity(new QualificationsEntity(String.join("", jobs.getJob_highlights().getQualifications())), new ResponsibilitiesEntity(String.join("", jobs.getJob_highlights().getResponsibilities())), new BenefitsEntity(String.join("", jobs.getJob_highlights().getBenefits()))), new PreviousExperienceEntity(jobs.getJob_required_experience().getExperience_preferred(), jobs.getJob_required_experience().getRequired_experience_in_months(), jobs.getJob_required_experience().getNo_experience_required()),
                     new PrevEducationEntity(jobs.getJob_required_education().getBachelorsDegree(), jobs.getJob_required_education().getAssociatesDegree(), jobs.getJob_required_education().getHighSchool(), jobs.getJob_required_education().getProfessionalCertification(), jobs.getJob_required_education().getPostgraduateDegree())));
             }
             return jobDataEntities;
@@ -78,10 +78,9 @@ public class Requests{
         return null;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
 
-        System.out.println(parsedJSONProvider());
+    System.out.println(parsedJSONProvider().size());
 
-    }
-
+  }
 }

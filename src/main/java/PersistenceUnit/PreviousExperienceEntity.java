@@ -1,7 +1,9 @@
+package PersistenceUnit;
+
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "previous_experience_entity")
+@Table(name = "previous_experience")
 public class PreviousExperienceEntity {
 
   public PreviousExperienceEntity(String experience_preferred, String required_experience_in_months, String no_experience_required) {

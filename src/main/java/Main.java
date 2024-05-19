@@ -1,6 +1,5 @@
 import PersistenceUnit.*;
 import org.hibernate.*;
-import org.hibernate.query.Query;
 import org.hibernate.cfg.Configuration;
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -29,6 +30,9 @@ public class Main {
   }
 
   protected static void Persist(JobDataEntity jobDataEntity) {
+      @SuppressWarnings("unused")
+      org.jboss.logging.Logger logger = org.jboss.logging.Logger.getLogger("org.hibernate");
+      java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
       Session session = factory.openSession();
       Transaction tx = session.beginTransaction();
       session.persist(jobDataEntity);
@@ -37,6 +41,10 @@ public class Main {
   }
 
   protected static void dropEverything() {
+
+      @SuppressWarnings("unused")
+      org.jboss.logging.Logger logger = org.jboss.logging.Logger.getLogger("org.hibernate");
+      java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
 
     try (SessionFactory factory = config().buildSessionFactory()) {
       Session session = factory.openSession();
@@ -58,29 +66,49 @@ public class Main {
     }
   }
 
+  protected static void Interface(Iterator<JobDataEntity> commander, ArrayList<JobDataEntity> jobs) {
+      Scanner scanner = new Scanner(System.in);
+      int x = 1;
+      while (commander.hasNext()) {
+          System.out.println(commander.next());
+          System.out.println("Would you like this to be added to the final Database? Press [Y] for Yes, [N] for No, [X] to stop the process or [J] to go to the next page.");
+          String userInput = scanner.next();
+          if (userInput.equalsIgnoreCase("y")) {
+              jobs.add(commander.next());
+          }else if(userInput.equalsIgnoreCase("x")){
+              break;
+          }else if(userInput.equalsIgnoreCase("j")){
+              x++;
+              Interface(Requests.parsedJSONProvider(x).iterator(), jobs);
+          }else if(userInput.equalsIgnoreCase("n")){
+              continue;
+          } else {
+              System.out.println("Unrecognized option. Try again.");
+          }
+      }
+  }
+
   public static void main(String[] args) {
 
-        @SuppressWarnings("unused")
-        org.jboss.logging.Logger logger = org.jboss.logging.Logger.getLogger("org.hibernate");
-        java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
+            dropEverything();
+            ArrayList<JobDataEntity> jobs = new ArrayList<>();
+            Interface(Requests.parsedJSONProvider(1).iterator(), jobs);
 
-        dropEverything();
-
-        try (SessionFactory sf = config().buildSessionFactory()) {
-
-          ArrayList<JobDataEntity> jobs = Requests.parsedJSONProvider();
-          for (JobDataEntity job : jobs) {
-            Persist(job);
-          }
-
-          try (Session session = sf.openSession()) {
-            Query<JobDataEntity> query = session.createQuery("FROM PersistenceUnit.JobDataEntity", JobDataEntity.class);
-            for (JobDataEntity job : query.getResultList()) {
-              System.out.println(job.getEmployer_name());
-            }
-          }
-        } catch (HibernateException e){
-          System.out.println(e.getMessage());
-        }
+//        try (SessionFactory sf = config().buildSessionFactory()) {
+//
+//          ArrayList<JobDataEntity> jobs = Requests.parsedJSONProvider();
+//          for (JobDataEntity job : jobs) {
+//            Persist(job);
+//          }
+//
+//          try (Session session = sf.openSession()) {
+//            Query<JobDataEntity> query = session.createQuery("FROM PersistenceUnit.JobDataEntity", JobDataEntity.class);
+//            for (JobDataEntity job : query.getResultList()) {
+//              System.out.println(job.getEmployer_name());
+//            }
+//          }
+//        } catch (HibernateException e){
+//          System.out.println(e.getMessage());
+//        }
   }
 }

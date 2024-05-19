@@ -292,4 +292,40 @@ public class JobDataEntity {
   public void setJob_required_education(PrevEducationEntity job_required_education) {
     this.job_required_education = job_required_education;
   }
+
+  @Override
+  public String toString() {
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append("     Name of the Employer: " + getEmployer_name() + "\n");
+    stringBuilder.append("     Employer Website: " + getEmployer_website() + "\n");
+    stringBuilder.append("     Employer Company Type: " + getEmployer_company_type() + "\n");
+    stringBuilder.append("     Job Publisher: " + getJob_publisher() + "\n");
+    stringBuilder.append("     Employment Type: " + getJob_employment_type() + "\n");
+    stringBuilder.append("     Official Title: " + getJob_title() + "\n");
+    stringBuilder.append("     Job Application Link: " + getJob_apply_link() + "\n");
+    stringBuilder.append("     Is the job application direct? " + getJob_apply_is_direct() + "\n");
+    stringBuilder.append("     Description of the Role: " + getJob_description() + "\n");
+    stringBuilder.append("     Is the job remote? " + getJob_is_remote() + "\n");
+    stringBuilder.append("     When was the job posted? " + getJob_posted_at_timestamp() + "\n");
+    stringBuilder.append("     City: " + getJob_city() + "\n");
+    stringBuilder.append("     State: " + getJob_state() + "\n");
+    stringBuilder.append("     Country: " + getJob_country() + "\n");
+    stringBuilder.append(
+            "     When does the job offer expire? " + getJob_offer_expiration_timestamp() + "\n");
+    stringBuilder.append(job_required_experience.toString() + "\n");
+    stringBuilder.append(job_required_education.toString() + "\n");
+    stringBuilder.append(
+            "Minimum salary disclosed: "
+                    + getJob_min_salary()
+                    + "\n"
+                    + "Maximum salary disclosed: "
+                    + getJob_max_salary()
+                    + "\n");
+    stringBuilder.append(
+            "Currency in which the salary is going to be paid: " + getJob_salary_currency() + "\n");
+    stringBuilder.append(
+            "Period in which the salary is going to be paid in: " + getJob_salary_period() + "\n");
+    stringBuilder.append(job_highlights);
+    return stringBuilder.toString();
+  }
 }

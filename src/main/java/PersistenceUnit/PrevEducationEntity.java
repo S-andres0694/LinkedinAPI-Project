@@ -84,4 +84,31 @@ public class PrevEducationEntity {
     this.bachelors_degree = bachelors_degree;
   }
 
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+
+    sb.append("     Postgraduate Degree: ");
+    sb.append(getPostgraduate_degree());
+    sb.append("\n");
+
+    sb.append("     Professional Certification: ");
+    sb.append(getProfessional_certification());
+    sb.append("\n");
+
+    sb.append("     High School: ");
+    sb.append(getHigh_school());
+    sb.append("\n");
+
+    sb.append("     Associate's Degree: ");
+    sb.append(getAssociates_degree());
+    sb.append("\n");
+
+    sb.append("     Bachelor's Degree: ");
+    sb.append(getBachelors_degree());
+    sb.append("\n");
+
+    return sb.toString();
+  }
+
 }

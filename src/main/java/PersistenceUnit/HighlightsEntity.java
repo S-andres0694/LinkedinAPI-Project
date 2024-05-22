@@ -68,4 +68,22 @@ public class HighlightsEntity {
   public void setBenefits(BenefitsEntity Benefits) {
     this.Benefits = Benefits;
   }
+
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    if (ResponsibilitiesEntity != null) {
+      builder.append("Responsibilities: " + "\n");
+      builder.append("     " + getResponsibilities().getResponsibilities() + "\n");
+    }
+    if (QualificationsEntity != null) {
+      builder.append("Qualifications: " + "\n");
+        builder.append("     " + getQualifications().getQualification() + "\n");
+    }
+    if (Benefits != null) {
+      builder.append("Benefits: " + "\n");
+        builder.append("     " + getBenefits().getBenefits() + "\n");
+    }
+    return builder.toString();
+  }
 }

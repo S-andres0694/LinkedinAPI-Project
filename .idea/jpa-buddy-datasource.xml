@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JpbDataSourceConfig">
+    <data-source-infos>
+      <data-source-info id="8bc39ec2-92d6-4f87-a3ff-42bf7ec7e600" persistence-unit-name="LinkedinEntries" />
+      <data-source-info id="8bc39ec2-92d6-4f87-a3ff-42bf7ec7e600" persistence-unit-name="Linkedin" />
+    </data-source-infos>
+  </component>
+</project>

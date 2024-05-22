@@ -59,4 +59,16 @@ public class PreviousExperienceEntity {
   public void setExperience_preferred(String experience_preferred) {
     this.experience_preferred = experience_preferred;
   }
+
+  @Override
+  public String toString() {
+    return new StringBuilder()
+            .append("     Required Experience: " + getNo_experience_required() + "\n")
+            .append("     Months of Required Experience: " + getRequired_experience_in_months() + "\n")
+            .append(
+                    "     Does this company prefer previous experience? "
+                            + getExperience_preferred()
+                            + "\n")
+            .toString();
+  }
 }

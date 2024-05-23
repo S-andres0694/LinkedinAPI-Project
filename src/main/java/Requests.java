@@ -36,7 +36,7 @@ public class Requests{
 
         //Creation of the necessary headers to get authentication from the API
 
-        Header apiKey = new BasicHeader("X-RapidAPI-Key","66305618d7msh4a97ed0a0c53863p127236jsn61e95b0679a0");
+        Header apiKey = new BasicHeader("X-RapidAPI-Key", Constants.getAPI_KEY());
         Header hostKey = new BasicHeader("X-RapidAPI-Host","jsearch.p.rapidapi.com");
         List<Header> headers = new ArrayList<>();
         headers.add(apiKey);

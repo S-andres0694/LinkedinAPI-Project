@@ -1,4 +1,9 @@
 import PersistenceUnit.*;
+import jakarta.mail.*;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
@@ -6,18 +11,13 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.hibernate.*;
+import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
 import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 import org.hibernate.query.NativeQuery;
-import javax.mail.*;
-import javax.mail.Session;
-import javax.mail.internet.*;
-import javax.activation.*;
-
-
 
 public class Main {
 
@@ -25,41 +25,40 @@ public class Main {
 
     protected static void sendEmail(String filePath){
 
-        String receiver = "sebasandres0694@gmail.com";
-        String sender = "sebasandres0694@gmail.com";
-        String host = "127.0.0.1";
-        int port = 8080;
-        Properties properties = System.getProperties();
-        properties.setProperty("mail.smtp.host", host);
-        properties.setProperty("mail.smtp.port", String.valueOf(port));
-        javax.mail.Session session = Session.getDefaultInstance(properties);
+        Properties prop = new Properties();
+        prop.put("mail.smtp.auth", true);
+        prop.put("mail.smtp.starttls.enable", "true");
+        prop.put("mail.smtp.host", "live.smtp.mailtrap.io");
+        prop.put("mail.smtp.port", "2525");
+        prop.put("mail.smtp.ssl.trust", "live.smtp.mailtrap.io");
 
-        try{
+        jakarta.mail.Session session = jakarta.mail.Session.getInstance(prop, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(Constants.getUSERNAME(), Constants.getPASSWORD());
+            }
+        });
 
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(sender));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(receiver));
-            message.setSubject( "Job Listings bro!");
-            BodyPart messageBodyPart = new MimeBodyPart();
-            messageBodyPart.setText("Job Listings have been acquired. Check the attached Excel Table");
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("mailtrap@demomailtrap.com"));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("sebasandres0694@gmail.com"));
+            message.setSubject("Job Postings Email");
+            String msg = "The Job Postings are attached to this email\n";
+            MimeBodyPart mimeBodyPart = new MimeBodyPart();
+            mimeBodyPart.setContent(msg, "text/html; charset=utf-8");
+            MimeBodyPart attachment = new MimeBodyPart();
+            attachment.attachFile(new File(filePath));
             Multipart multipart = new MimeMultipart();
-            multipart.addBodyPart(messageBodyPart);
-
-            messageBodyPart = new MimeBodyPart();
-            String filename = "JobPostings.xlsx";
-            DataSource source = new FileDataSource(filePath);
-            messageBodyPart.setDataHandler(new DataHandler(source));
-            messageBodyPart.setFileName(filename);
-            multipart.addBodyPart(messageBodyPart);
-
+            multipart.addBodyPart(mimeBodyPart);
+            multipart.addBodyPart(attachment);
             message.setContent(multipart);
             Transport.send(message);
-            System.out.println("Message has been sent successfully");
-
-    } catch (javax.mail.MessagingException mex) {
-            System.out.println("Exception was caught: " + mex.getMessage());
+        } catch (MessagingException e) {
+            System.out.println("There has been a problem with your email " + e.getMessage());
+        } catch (IOException error) {
+            System.out.println("There has been a problem with your email " + error.getMessage());
         }
-
     }
 
     protected static void writeHeaderLine(XSSFSheet sheet){

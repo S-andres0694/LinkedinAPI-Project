@@ -26,7 +26,7 @@ public class Requests{
         URI uri = null;
         try {
             uri = new URIBuilder(httpGetObj.getUri())
-                    .addParameter("query","Software Developer in California")
+                    .addParameter("query","Nurse in New Mexico")
                     .addParameter("page", String.valueOf(page))
                     .build();
         } catch (URISyntaxException e) {
@@ -47,7 +47,7 @@ public class Requests{
         try(CloseableHttpClient httpClient = HttpClients.custom().setDefaultHeaders(headers).build()) {
             String response = httpClient.execute(httpGetObj, new BasicHttpClientResponseHandler());
             Gson gsonObj = new Gson();
-            JobDetails details = (gsonObj.fromJson(response, JobDetails.class));
+            JobDetails details = gsonObj.fromJson(response, JobDetails.class);
             ArrayList<JobDataEntity> jobDataEntities = new ArrayList<>();
             for(JobData jobs : details.getData()){
         jobDataEntities.add(
@@ -76,7 +76,9 @@ public class Requests{
             return jobDataEntities;
         } catch (IOException e) {
             System.out.println("There has been a problem with the connection to the API. Please try again");
+            e.printStackTrace();
         }
         return null;
     }
+
 }

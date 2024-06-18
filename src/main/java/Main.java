@@ -11,7 +11,6 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.hibernate.*;
-import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
 import java.io.*;
 import java.util.*;
@@ -21,16 +20,27 @@ import org.hibernate.query.NativeQuery;
 
 public class Main {
 
+    //creates all of the different session objects that allow the manipulation of the database
     private static SessionFactory factory = config().buildSessionFactory();
+
+    /**
+     * Creates a mail element, which will eventually contain a file. This will be sent to my personal email
+     * First it creates the properties of the mail sender, then puts them inside the new session instance.
+     * Then it adds all of the necessary elements of the email.
+     * @param filePath the full/relative path of the email attachment
+     */
 
     protected static void sendEmail(String filePath){
 
+        //Properties object of the mail sender.
         Properties prop = new Properties();
         prop.put("mail.smtp.auth", true);
         prop.put("mail.smtp.starttls.enable", "true");
         prop.put("mail.smtp.host", "live.smtp.mailtrap.io");
         prop.put("mail.smtp.port", "2525");
         prop.put("mail.smtp.ssl.trust", "live.smtp.mailtrap.io");
+
+        //Initialization of the session instance, which will be used to send the email
 
         jakarta.mail.Session session = jakarta.mail.Session.getInstance(prop, new Authenticator() {
             @Override
@@ -39,17 +49,32 @@ public class Main {
             }
         });
 
+        //Email sending process as well as attaching the different elements that compose the message.
+
         try {
+            //Actual message object, which is the factual email.
             Message message = new MimeMessage(session);
+
+            //Configuration of the email sender, recipient and subject.
+
             message.setFrom(new InternetAddress("mailtrap@demomailtrap.com"));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("sebasandres0694@gmail.com"));
             message.setSubject("Job Postings Email");
+
+            //Message attached to the email
+
             String msg = "The Job Postings are attached to this email\n";
             MimeBodyPart mimeBodyPart = new MimeBodyPart();
             mimeBodyPart.setContent(msg, "text/html; charset=utf-8");
+
+            //Sets the attachment to the email
+
             MimeBodyPart attachment = new MimeBodyPart();
             attachment.attachFile(new File(filePath));
             Multipart multipart = new MimeMultipart();
+
+            //Adds the attachment to the email and sends it away.
+
             multipart.addBodyPart(mimeBodyPart);
             multipart.addBodyPart(attachment);
             message.setContent(multipart);
@@ -60,6 +85,11 @@ public class Main {
             System.out.println("There has been a problem with your email " + error.getMessage());
         }
     }
+
+    /**
+     * Creates all of the headers of the Excel file that contains the job postings at the end of the process.
+     * @param sheet it is the excel sheet that we are modifying to add all of the headers.
+     */
 
     protected static void writeHeaderLine(XSSFSheet sheet){
 
@@ -153,6 +183,15 @@ public class Main {
         cell.setCellValue("Requirement for PhD");
 
     }
+
+    /**
+     *
+     * Method that handles the writing of the data into the actual excel file, which is later going to be sent into the email.
+     *
+     * @param finalJobs list of job posting information
+     * @param workbook used for the dates
+     * @param sheet actual excel sheet that is going to be sent in the email.
+     */
 
     protected static void writeData(List<JobDataEntity> finalJobs, XSSFWorkbook workbook, XSSFSheet sheet){
         int rowCount = 1;
@@ -263,6 +302,11 @@ public class Main {
         }
     }
 
+    /**
+     * Calls all the methods for the excel sheets to initialise the excel sheet and send it away.
+     * @param results
+     */
+
     protected static void export(List<JobDataEntity> results){
 
         XSSFWorkbook workbook = new XSSFWorkbook();
@@ -283,6 +327,11 @@ public class Main {
         }
     }
 
+    /**
+     * Configuration file passed to the session factory to give all of the classes translated to Hibernate
+     * @return returns the configuration object passed to the session factory
+     */
+
     protected static Configuration config() {
         Configuration config = new Configuration();
         config.configure(new File("src/main/resources/hibernate.cfg.xml"));
@@ -296,6 +345,11 @@ public class Main {
         return config;
     }
 
+    /**
+     * Persists all of the objects inside of the database.
+     * @param jobDataEntity the job posting information
+     */
+
     protected static void Persist(JobDataEntity jobDataEntity) {
         org.hibernate.Session session = factory.openSession();
         Transaction tx = session.beginTransaction();
@@ -303,6 +357,10 @@ public class Main {
         session.flush();
         tx.commit();
     }
+
+    /**
+     * Wipes the database clean
+     */
 
     protected static void dropEverything() {
 
@@ -326,6 +384,12 @@ public class Main {
         }
     }
 
+    /**
+     * Interface that allows the user to get job postings.
+     * @param commander iterator of the job posting information.
+     * @param jobs the array containing the job postings that is going to be added into the database.
+     */
+
     protected static void Interface(Iterator<JobDataEntity> commander, ArrayList<JobDataEntity> jobs) {
         Scanner scanner = new Scanner(System.in);
         int pageCounter = 1;
@@ -345,33 +409,38 @@ public class Main {
                 Interface(Requests.parsedJSONProvider(pageCounter).iterator(), jobs);
             }else if(userInput.equalsIgnoreCase("n")){
                 continue;
-            } else if (userInput.equalsIgnoreCase("n") && postingCounter == 10){
+            } else if ((userInput.equalsIgnoreCase("n") || userInput.equalsIgnoreCase("y")) && postingCounter == 10){
                 Interface(Requests.parsedJSONProvider(pageCounter).iterator(), jobs);
             }
             job = commander.next();
         }
     }
 
+    /**
+     * Main method
+     * @param args not used in this method.
+     */
+
     public static void main(String[] args) {
 
-//        @SuppressWarnings("unused")
-//        org.jboss.logging.Logger logger = org.jboss.logging.Logger.getLogger("org.hibernate");
-//        java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
-//        dropEverything();
-//        ArrayList<JobDataEntity> jobs = new ArrayList<>();
-//        Interface(Requests.parsedJSONProvider(1).iterator(), jobs);
-//
-//        try (SessionFactory sf = config().buildSessionFactory()) {
-//            for (JobDataEntity job : jobs) {
-//                Persist(job);
-//            }
-//            try (org.hibernate.Session session = sf.openSession()) {
-//                NativeQuery<JobDataEntity> query = session.createNativeQuery("SELECT * FROM job_data", JobDataEntity.class);
-//                export(query.getResultList());
-//            }
-//        } catch (HibernateException e){
-//            System.out.println(e.getMessage());
-//        }
+        @SuppressWarnings("unused")
+        org.jboss.logging.Logger logger = org.jboss.logging.Logger.getLogger("org.hibernate");
+        java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
+        dropEverything();
+        ArrayList<JobDataEntity> jobs = new ArrayList<>();
+        Interface(Requests.parsedJSONProvider(1).iterator(), jobs);
+
+        try (SessionFactory sf = config().buildSessionFactory()) {
+            for (JobDataEntity job : jobs) {
+                Persist(job);
+            }
+            try (org.hibernate.Session session = sf.openSession()) {
+                NativeQuery<JobDataEntity> query = session.createNativeQuery("SELECT * FROM job_data", JobDataEntity.class);
+                export(query.getResultList());
+            }
+        } catch (HibernateException e){
+            System.out.println(e.getMessage());
+        }
         File excelFile = new File("JobPostings.xlsx");
         sendEmail(excelFile.getPath());
     }
